@@ -1,9 +1,8 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Box, makeStyles } from '@material-ui/core';
 import { ShoppingCart as Cart, FlashOn as Flash } from '@material-ui/icons';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
-import { LoginContext } from '../../context/ContextProvider';
 import { addToCart } from '../../redux/actions/cartActions';
 import { useDispatch } from 'react-redux';
 import { loadRazorpay } from '../../razorpay/loadPayment';

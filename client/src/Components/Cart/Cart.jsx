@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToCart, removeFromCart } from '../../redux/actions/cartActions';
 import TotalView from './TotalView';
 import EmptyCart from './EmptyCart';
-import { loadRazorpay } from '../../razorpay/loadPayment';
+import EmptyCart from './EmptyCart';
 
 
 const useStyle = makeStyles(theme => ({

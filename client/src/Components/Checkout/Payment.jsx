@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box, Button, Typography, makeStyles, Grid, Radio, RadioGroup, FormControlLabel, FormControl } from '@material-ui/core';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import TotalView from '../Cart/TotalView';
 import { useHistory } from 'react-router-dom';
 import { loadRazorpay } from '../../razorpay/loadPayment';
@@ -57,7 +57,7 @@ const Payment = () => {
         if (value === 'razorpay') {
             // Calculate total
             let total = 0;
-            cartItems.map(item => {
+            cartItems.forEach(item => {
                 total += item.price.cost;
             });
             await loadRazorpay(total);

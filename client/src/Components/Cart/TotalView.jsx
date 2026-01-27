@@ -38,26 +38,20 @@ const TotalView = ({ cartItems }) => {
     const [discount, setDiscount] = useState(0)
 
 
-    const totalAmount = () => {
+    useEffect(() => {
         let price = 0, discount = 0;
-        console.log(cartItems);
-        cartItems.map(item => {
+        cartItems.forEach(item => {
             price += item.price.mrp
-            discount += (item.price.mrp - item.price.cost) 
-        })
+            discount += (item.price.mrp - item.price.cost)
+        });
         setPrice(price);
         setDiscount(discount);
-    }
+    }, [cartItems]);
 
 
-    useEffect(() => {
-        totalAmount();
-    }, [cartItems,totalAmount]);
-    
-    
     return (
         <Box className={classes.component}>
-            <Box className={classes.header} style={{borderBottom: '1px solid #f0f0f0'}}>
+            <Box className={classes.header} style={{ borderBottom: '1px solid #f0f0f0' }}>
                 <Typography className={classes.greyTextColor}>PRICE DETAILS</Typography>
             </Box>
             <Box className={clsx(classes.header, classes.container)}>
@@ -65,7 +59,7 @@ const TotalView = ({ cartItems }) => {
                 <Typography>Discount<span className={classes.price}>-₹{discount}</span></Typography>
                 <Typography>Delivery Charges<span className={classes.price}>₹40</span></Typography>
                 <Typography className={classes.totalAmount}>Total Amount<span className={classes.price}>₹{price - discount + 40}</span></Typography>
-                <Typography style={{fontSize: 16, color: 'green'}}>You will save ₹{discount - 40} on this order</Typography>
+                <Typography style={{ fontSize: 16, color: 'green' }}>You will save ₹{discount - 40} on this order</Typography>
             </Box>
         </Box>
     )
