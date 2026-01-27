@@ -52,9 +52,9 @@ const Cart = ({ match, history }) => {
     const { cartItems } = cartDetails;
 
     const dispatch = useDispatch();
-    
+
     useEffect(() => {
-        if(cartItems && match.params.id !== cartItems.id)   
+        if (cartItems && match.params.id !== cartItems.id)
             dispatch(addToCart(match.params.id));
         console.log(cartItems);
     }, [dispatch, cartItems, match]);
@@ -64,30 +64,30 @@ const Cart = ({ match, history }) => {
     }
 
     const buyNow = async () => {
-        loadRazorpay(500);
+        history.push('/shipping');
     }
 
     return (
         <>
-        { cartItems.length ? 
-            <Grid container className={classes.component}>
-                <Grid item lg={9} md={9} sm={12} xs={12} className={classes.leftComponent}>
-                    <Box className={classes.header}>
-                        <Typography style={{fontWeight: 600, fontSize: 18}}>My Cart ({cartItems?.length})</Typography>
-                    </Box>
-                        {   cartItems.map(item => (
-                                <CartItem item={item} removeItemFromCart={removeItemFromCart}/>
-                            ))
+            {cartItems.length ?
+                <Grid container className={classes.component}>
+                    <Grid item lg={9} md={9} sm={12} xs={12} className={classes.leftComponent}>
+                        <Box className={classes.header}>
+                            <Typography style={{ fontWeight: 600, fontSize: 18 }}>My Cart ({cartItems?.length})</Typography>
+                        </Box>
+                        {cartItems.map(item => (
+                            <CartItem item={item} removeItemFromCart={removeItemFromCart} />
+                        ))
                         }
-                    <Box className={classes.bottom}>
-                        <Button onClick={() => buyNow()} variant="contained" className={classes.placeOrder}>Place Order</Button>
-                    </Box>
-                </Grid>
-                <Grid item lg={3} md={3} sm={12} xs={12}>
-                    <TotalView cartItems={cartItems} />
-                </Grid>
-            </Grid> : <EmptyCart />
-        }
+                        <Box className={classes.bottom}>
+                            <Button onClick={() => buyNow()} variant="contained" className={classes.placeOrder}>Place Order</Button>
+                        </Box>
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                        <TotalView cartItems={cartItems} />
+                    </Grid>
+                </Grid> : <EmptyCart />
+            }
         </>
 
     )

@@ -25,11 +25,12 @@ const password = process.env.DB_PASSWORD;
 
 Connection(username, password);
 
-app.listen(PORT, () => console.log(`Server is running successfully on PORT ${PORT}`));
-
-
+// Middleware - MUST be registered BEFORE app.listen()
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use('/', Routes);
+
+// Start server - MUST be at the end
+app.listen(PORT, () => console.log(`✅ Server is running successfully on PORT ${PORT}`));
 

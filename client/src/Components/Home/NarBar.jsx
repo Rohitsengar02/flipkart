@@ -1,5 +1,6 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import { navData } from '../../constant/data';
+import { Link } from 'react-router-dom';
 
 const useStyle = makeStyles(theme => ({
     component: {
@@ -13,7 +14,12 @@ const useStyle = makeStyles(theme => ({
     },
     container: {
         padding: '12px 8px',
-        textAlign: 'center'
+        textAlign: 'center',
+        cursor: 'pointer',
+        textDecoration: 'none',
+        '&:hover $text': {
+            color: '#2874f0'
+        }
     },
     image: {
         width: 64
@@ -21,7 +27,9 @@ const useStyle = makeStyles(theme => ({
     text: {
         fontSize: 14,
         fontWeight: 600,
-        fontFamily: 'inherit'
+        fontFamily: 'inherit',
+        color: '#212121',
+        marginTop: 5
     }
 }));
 
@@ -30,11 +38,15 @@ const NavBar = () => {
     return (
         <Box className={classes.component}>
             {
-                navData.map(temp => (
-                    <Box className={classes.container}>
-                        <img src={temp.url} className={classes.image} alt="" />
+                navData.map((temp, index) => (
+                    <Link
+                        to={`/category/${temp.text.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`}
+                        className={classes.container}
+                        key={index}
+                    >
+                        <img src={temp.url} className={classes.image} alt={temp.text} />
                         <Typography className={classes.text}>{temp.text}</Typography>
-                    </Box>
+                    </Link>
                 ))
             }
         </Box>
