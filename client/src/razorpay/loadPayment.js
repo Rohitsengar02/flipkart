@@ -13,7 +13,7 @@ export const loadRazorpay = (price) => {
       const result = await axios.post(`${url}/create-order`, {
         amount: orderAmount,
       });
-      const { amount, id: order_id, currency } = result.data;
+      const { id: order_id, currency } = result.data;
       const {
         data: { key: razorpayKey },
       } = await axios.get(`${url}/get-razorpay-key`);
