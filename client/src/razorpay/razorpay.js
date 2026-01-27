@@ -6,7 +6,7 @@ function Razorpay() {
   const [orderAmount, setOrderAmount] = useState(0);
   const [orders, setOrders] = useState([]);
 
-  const url = 'http://localhost:8000';
+  const url = 'https://flipkart-ct3q.onrender.com';
 
   async function fetchOrders() {
     const { data } = await axios.get(`${url}/pay-res`);
@@ -17,7 +17,7 @@ function Razorpay() {
     fetchOrders();
   }, []);
 
-  const loadRazorpay=()=> {
+  const loadRazorpay = () => {
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
     script.onerror = () => {
@@ -33,7 +33,7 @@ function Razorpay() {
         const {
           data: { key: razorpayKey },
         } = await axios.get(`${url}/get-razorpay-key`);
- 
+
         const options = {
           key: razorpayKey,
           amount: orderAmount.toString(),
