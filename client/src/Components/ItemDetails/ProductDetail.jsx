@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Typography, makeStyles, Table, TableBody, TableRow, TableCell, Grid, LinearProgress } from '@material-ui/core';
+import { Box, Typography, makeStyles, Table, TableBody, TableRow, TableCell, LinearProgress } from '@material-ui/core';
 import { LocalOffer as Badge, Star } from '@material-ui/icons';
 
 const useStyle = makeStyles({

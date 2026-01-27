@@ -79,7 +79,7 @@ const DetailView = ({ history, match }) => {
     const [loading, setLoading] = useState(false);
     const { id } = useParams();
 
-    const [quantity, setQuantity] = useState(1);
+
 
     const getProducts = useSelector(state => state.getProducts);
     const { products } = getProducts;
@@ -87,7 +87,7 @@ const DetailView = ({ history, match }) => {
     const dispatch = useDispatch();
 
     // Memoize the shuffled/recent lists to prevent re-shuffling on every render
-    const recentData = useMemo(() => products.filter(p => getRecentIds().includes(p.id)), [products, product]);
+    const recentData = useMemo(() => products.filter(p => getRecentIds().includes(p.id)), [products]);
     const topSelectionData = useMemo(() => getShuffleProducts(products, 7), [products]);
     const recommendedData = useMemo(() => getShuffleProducts(products, 7), [products]);
 
@@ -99,16 +99,16 @@ const DetailView = ({ history, match }) => {
     }, [dispatch, product, match, loading]);
 
 
-    const getProductValues = async () => {
-        setLoading(true);
-        const response = await getProductById(id);
-        setProduct(response.data);
-        addToRecent(response.data.id);
-        setLoading(false);
-    }
     useEffect(() => {
+        const getProductValues = async () => {
+            setLoading(true);
+            const response = await getProductById(id);
+            setProduct(response.data);
+            addToRecent(response.data.id);
+            setLoading(false);
+        }
         getProductValues();
-    }, [getProductValues]);
+    }, [id]);
 
     return (
         <Box className={classes.component}>
