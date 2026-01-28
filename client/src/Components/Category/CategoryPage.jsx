@@ -1,67 +1,146 @@
 import { useEffect, useState } from 'react';
-import { Box, Typography, Grid, makeStyles } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
+import { Box, Typography, Grid, makeStyles, IconButton, Badge, Drawer } from '@material-ui/core';
+import { useParams, useHistory } from 'react-router-dom';
 import { getProducts } from '../../redux/actions/productActions';
 import { useDispatch, useSelector } from 'react-redux';
-import FilterSidebar from './FilterSidebar';
+import { ArrowBack, Search, FavoriteBorder, ShoppingCart, AccountCircle, Sort, FilterList, Close } from '@material-ui/icons';
 import ProductCard from './ProductCard';
+import FilterSidebar from './FilterSidebar';
 
 const useStyles = makeStyles(theme => ({
     component: {
         width: '100%',
-        marginTop: 10,
-        background: '#F2F2F2'
-    },
-    container: {
-        maxWidth: 1280,
-        margin: '0 auto',
-        padding: '10px 20px',
-        display: 'flex',
-        gap: 10
-    },
-    leftPane: {
-        width: 250,
-        background: '#FFFFFF',
-        padding: 15,
-        borderRadius: 2,
-        height: 'fit-content',
-        position: 'sticky',
-        top: 70
-    },
-    rightPane: {
-        flex: 1
+        background: '#fff',
+        minHeight: '100vh',
+        [theme.breakpoints.up('md')]: {
+            marginTop: 55,
+            background: '#f2f2f2'
+        }
     },
     header: {
-        background: '#FFFFFF',
-        padding: '15px 20px',
-        marginBottom: 10,
-        borderRadius: 2,
+        background: '#fff',
+        height: 55,
         display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        padding: '0 10px',
+        borderBottom: '1px solid #f0f0f0',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1100,
+        [theme.breakpoints.up('md')]: {
+            display: 'none'
+        }
     },
-    productGrid: {
-        background: '#FFFFFF',
-        padding: 10,
-        borderRadius: 2
+    sortFilterBar: {
+        display: 'flex',
+        borderBottom: '1px solid #f0f0f0',
+        marginTop: 55,
+        background: '#fff',
+        [theme.breakpoints.up('md')]: {
+            marginTop: 0,
+            display: 'none'
+        }
     },
-    title: {
-        fontSize: 24,
-        fontWeight: 600,
-        color: '#212121'
-    },
-    resultText: {
+    sfButton: {
+        flex: 1,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '12px 0',
         fontSize: 14,
-        color: '#878787'
+        fontWeight: 500,
+        gap: 5,
+        cursor: 'pointer',
+        '&:first-child': { borderRight: '1px solid #f0f0f0' }
+    },
+    chipContainer: {
+        display: 'flex',
+        padding: '10px 5px',
+        overflowX: 'auto',
+        background: '#fff',
+        gap: 10,
+        '&::-webkit-scrollbar': { display: 'none' },
+        [theme.breakpoints.up('md')]: {
+            display: 'none'
+        }
+    },
+    chip: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: '5px 12px',
+        border: '1px solid #e0e0e0',
+        borderRadius: 4,
+        whiteSpace: 'nowrap',
+        fontSize: 12,
+        fontWeight: 500,
+        gap: 8
+    },
+    adSection: {
+        padding: 10,
+        background: '#f1f3f6',
+        [theme.breakpoints.up('md')]: {
+            display: 'none'
+        }
+    },
+    adCardContainer: {
+        display: 'flex',
+        gap: 10,
+        overflowX: 'auto',
+        padding: '5px 0',
+        '&::-webkit-scrollbar': { display: 'none' }
+    },
+    adCard: {
+        minWidth: 160,
+        background: '#fff',
+        padding: 10,
+        borderRadius: 4,
+        textAlign: 'center'
+    },
+    productContainer: {
+        [theme.breakpoints.up('md')]: {
+            maxWidth: 1280,
+            margin: '0 auto',
+            padding: 20,
+            display: 'flex',
+            gap: 15
+        }
+    },
+    leftPane: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'block',
+            width: 250,
+            background: '#fff',
+            padding: 15,
+            height: 'fit-content',
+            position: 'sticky',
+            top: 70
+        }
+    },
+    rightPane: {
+        flex: 1,
+        [theme.breakpoints.down('sm')]: {
+            paddingBottom: 60
+        }
+    },
+    drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: '10px 15px',
+        borderBottom: '1px solid #f0f0f0'
     }
 }));
 
 const CategoryPage = () => {
     const classes = useStyles();
     const { category } = useParams();
+    const history = useHistory();
     const dispatch = useDispatch();
     const { products } = useSelector(state => state.getProducts);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [openFilter, setOpenFilter] = useState(false);
 
     useEffect(() => {
         dispatch(getProducts());
@@ -72,17 +151,13 @@ const CategoryPage = () => {
             if (category === 'all') {
                 setFilteredProducts(products);
             } else {
-                // Split URL slug into potential keywords (e.g. 'top-offers' -> ['top', 'offers'])
                 const searchKeywords = category.toLowerCase().split('-');
-
                 const filtered = products.filter(product => {
                     const prodCategory = product.category ? product.category.toLowerCase() : '';
                     const shortTitle = product.title.shortTitle.toLowerCase();
                     const tagline = product.tagline ? product.tagline.toLowerCase() : '';
-
-                    // Check if ANY keyword matches the category, title, or tagline
                     return searchKeywords.some(keyword =>
-                        keyword.length > 2 && ( // Ignore very short words to avoid false positives
+                        keyword.length > 2 && (
                             prodCategory.includes(keyword) ||
                             shortTitle.includes(keyword) ||
                             tagline.includes(keyword)
@@ -94,31 +169,88 @@ const CategoryPage = () => {
         }
     }, [products, category]);
 
+    const title = category === 'all' ? 'All Products' : category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
     return (
         <Box className={classes.component}>
-            <Box className={classes.container}>
+            {/* Custom Mobile Header */}
+            <Box className={classes.header}>
+                <IconButton onClick={() => history.push('/')} style={{ padding: 8 }}>
+                    <ArrowBack />
+                </IconButton>
+                <img src="https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_8d85f4.png" style={{ height: 20, marginLeft: 5 }} alt="" />
+                <Typography style={{ fontSize: 16, fontWeight: 500, marginLeft: 10, flex: 1 }}>{title}</Typography>
+                <IconButton style={{ padding: 8 }}><Search style={{ fontSize: 20 }} /></IconButton>
+                <IconButton style={{ padding: 8 }}><FavoriteBorder style={{ fontSize: 20 }} /></IconButton>
+                <IconButton style={{ padding: 8 }}>
+                    <Badge badgeContent={2} color="secondary">
+                        <ShoppingCart style={{ fontSize: 20 }} />
+                    </Badge>
+                </IconButton>
+                <IconButton style={{ padding: 8 }}><AccountCircle style={{ fontSize: 20 }} /></IconButton>
+            </Box>
+
+            {/* Sort & Filter Bar */}
+            <Box className={classes.sortFilterBar}>
+                <Box className={classes.sfButton}><Sort /> Sort</Box>
+                <Box className={classes.sfButton} onClick={() => setOpenFilter(true)}><FilterList /> Filter</Box>
+            </Box>
+
+            {/* Mobile Filter Drawer */}
+            <Drawer anchor="right" open={openFilter} onClose={() => setOpenFilter(false)}>
+                <Box style={{ width: '85vw', height: '100%' }}>
+                    <Box className={classes.drawerHeader}>
+                        <IconButton onClick={() => setOpenFilter(false)} style={{ padding: 0, marginRight: 15 }}>
+                            <Close />
+                        </IconButton>
+                        <Typography style={{ fontSize: 18, fontWeight: 600 }}>Filters</Typography>
+                    </Box>
+                    <Box style={{ padding: 15 }}>
+                        <FilterSidebar />
+                    </Box>
+                </Box>
+            </Drawer>
+
+            {/* Sub-category Chips */}
+            <Box className={classes.chipContainer}>
+                <Box className={classes.chip}><img src="https://rukminim1.flixcart.com/flap/128/128/image/f15c02bfeb02d15d.png?q=100" style={{ width: 20 }} alt="" /> New Launches</Box>
+                <Box className={classes.chip}><img src="https://rukminim1.flixcart.com/flap/128/128/image/22fddf3c7da4c4f4.png?q=100" style={{ width: 20 }} alt="" /> Premium Brands</Box>
+                <Box className={classes.chip}><img src="https://rukminim1.flixcart.com/flap/128/128/image/82b3ca5fb2301045.png?q=100" style={{ width: 20 }} alt="" /> Washer with Dryer</Box>
+                <Box className={classes.chip}><img src="https://rukminim1.flixcart.com/flap/128/128/image/69cff05093e620a.png?q=100" style={{ width: 20 }} alt="" /> Steam Wash</Box>
+            </Box>
+
+            {/* Ad Section */}
+            <Box className={classes.adSection}>
+                <Box className={classes.adCardContainer}>
+                    <Box className={classes.adCard}>
+                        <Box style={{ background: '#f0f0f0', borderRadius: '50%', width: 80, height: 80, margin: '0 auto 10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <img src="https://rukminim1.flixcart.com/image/312/312/xif0q/washing-machine-new/v/f/v/-original-imagp7ggpznzuzhv.jpeg?q=70" style={{ width: 50 }} alt="" />
+                        </Box>
+                        <Typography style={{ fontSize: 12, fontWeight: 600 }}>Heater Machines</Typography>
+                        <Typography style={{ fontSize: 11, color: '#878787' }}>starting 14590</Typography>
+                        <Typography style={{ fontSize: 11, color: '#2874f0', marginTop: 5 }}>Explore all &gt;</Typography>
+                    </Box>
+                    {filteredProducts.slice(0, 3).map(p => (
+                        <Box key={p.id} className={classes.adCard}>
+                            <img src={p.url} style={{ height: 80, objectFit: 'contain' }} alt="" />
+                            <Typography style={{ fontSize: 12, fontWeight: 600, marginTop: 10 }}>{p.title.shortTitle}</Typography>
+                            <Typography style={{ fontSize: 11, color: '#388e3c' }}>{p.price.discount} Off</Typography>
+                        </Box>
+                    ))}
+                </Box>
+            </Box>
+
+            <Box className={classes.productContainer}>
                 <Box className={classes.leftPane}>
-                    <FilterSidebar />
+                    <Typography style={{ fontSize: 18, fontWeight: 600, marginBottom: 15 }}>Filters</Typography>
+                    {/* Placeholder for desktop filters */}
+                    <Typography style={{ fontSize: 14, color: '#878787' }}>Categories, Price, Brand...</Typography>
                 </Box>
                 <Box className={classes.rightPane}>
-                    <Box className={classes.header}>
-                        <Box>
-                            <Typography className={classes.title}>
-                                {category === 'all' ? 'All Products' : category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                            </Typography>
-                            <Typography className={classes.resultText}>
-                                Showing {filteredProducts.length} results
-                            </Typography>
-                        </Box>
-                    </Box>
-                    <Box className={classes.productGrid}>
-                        <Grid container spacing={2}>
-                            {filteredProducts && filteredProducts.map(product => (
-                                <Grid item xs={12} sm={6} md={3} key={product.id}>
-                                    <ProductCard product={product} />
-                                </Grid>
-                            ))}
-                        </Grid>
+                    <Box style={{ background: '#fff' }}>
+                        {filteredProducts && filteredProducts.map(product => (
+                            <ProductCard product={product} key={product.id} />
+                        ))}
                     </Box>
                 </Box>
             </Box>
@@ -127,3 +259,4 @@ const CategoryPage = () => {
 };
 
 export default CategoryPage;
+

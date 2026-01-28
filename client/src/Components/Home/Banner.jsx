@@ -1,5 +1,5 @@
 import Carousel from 'react-material-ui-carousel'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, Box } from '@material-ui/core'
 import { bannerData } from '../../constant/data';
 
 
@@ -19,27 +19,46 @@ const useStyle = makeStyles(theme => ({
 const Banner = () => {
     const classes = useStyle();
     return (
-        <Carousel 
-            autoPlay={true} 
-            animation="slide" 
-            indicators={false}
-            navButtonsAlwaysVisible={true}
+        <Carousel
+            autoPlay={true}
+            animation="slide"
+            indicators={true}
+            navButtonsAlwaysVisible={window.innerWidth > 600}
             cycleNavigation={true}
             className={classes.container}
-            StylesProvider
-            navButtonsProps={{ 
+            indicatorIconButtonProps={{
+                style: {
+                    marginTop: -30,
+                    zIndex: 1,
+                    color: 'rgba(255, 255, 255, 0.5)'
+                }
+            }}
+            activeIndicatorIconButtonProps={{
+                style: {
+                    color: '#fff'
+                }
+            }}
+            navButtonsProps={{
                 style: {
                     color: '#494949',
                     backgroundColor: '#FFFFFF',
                     borderRadius: 0,
                     margin: 0,
                     width: 50,
+                    boxShadow: '0 1px 5px rgba(0,0,0,0.1)'
                 }
             }}
         >
             {
-                bannerData.map(image => (
-                    <img src={image} className={classes.image} alt="" />
+                bannerData.map((image, i) => (
+                    <Box key={i} style={{ padding: window.innerWidth <= 600 ? '0 10px' : 0 }}>
+                        <img
+                            src={image}
+                            className={classes.image}
+                            style={{ borderRadius: window.innerWidth <= 600 ? 12 : 0 }}
+                            alt=""
+                        />
+                    </Box>
                 ))
             }
         </Carousel>

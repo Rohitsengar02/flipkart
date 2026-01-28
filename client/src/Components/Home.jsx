@@ -11,13 +11,24 @@ import { getShuffleProducts } from '../utils/shuffle';
 import { getRecentIds } from '../utils/recent';
 
 
-const useStyle = makeStyles({
+const useStyle = makeStyles(theme => ({
     component: {
         padding: 10,
         background: '#F2F2F2',
         overflowX: 'hidden'
+    },
+    desktopNavBar: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'none'
+        }
+    },
+    mobileNavBar: {
+        display: 'none',
+        [theme.breakpoints.down('sm')]: {
+            display: 'block'
+        }
     }
-})
+}))
 
 const Home = () => {
     const classes = useStyle();
@@ -33,9 +44,14 @@ const Home = () => {
 
     return (
         <>
-            <NavBar />
+            <Box className={classes.desktopNavBar}>
+                <NavBar />
+            </Box>
             <Box className={classes.component}>
                 <Banner />
+                <Box className={classes.mobileNavBar}>
+                    <NavBar />
+                </Box>
                 <MidSlide products={products} />
                 <MidSection />
                 <Slide

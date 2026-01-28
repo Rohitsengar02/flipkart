@@ -6,7 +6,7 @@ function Razorpay() {
   const [orderAmount, setOrderAmount] = useState(0);
   const [orders, setOrders] = useState([]);
 
-  const url = 'https://flipkart-ct3q.onrender.com';
+  const url = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
   async function fetchOrders() {
     const { data } = await axios.get(`${url}/pay-res`);

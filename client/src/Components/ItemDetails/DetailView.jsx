@@ -20,15 +20,20 @@ const useStyles = makeStyles(theme => ({
     },
     container: {
         background: '#FFFFFF',
-        // margin: '0 80px',
         display: 'flex',
         [theme.breakpoints.down('md')]: {
             margin: 0,
             padding: '0 10px'
+        },
+        [theme.breakpoints.down('sm')]: {
+            paddingBottom: 130 // Padding for sticky bottom bar (approx 64px) + bottom navigation (56px)
         }
     },
     rightContainer: {
         marginTop: 50,
+        [theme.breakpoints.down('sm')]: {
+            marginTop: 0
+        },
         '& > *': {
             marginTop: 10
         }
@@ -122,7 +127,7 @@ const DetailView = ({ history, match }) => {
 
 
                         <Typography>{product.title.longTitle}</Typography>
-                        <Box style={{ display: 'flex', alignItems: 'center', marginTop: 5 }}>
+                        <Box display={{ xs: 'none', sm: 'flex' }} style={{ alignItems: 'center', marginTop: 5 }}>
                             <span className={classes.ratingBox}>4.5 <Star style={{ fontSize: 10, marginLeft: 2 }} /></span>
                             <Typography className={clsx(classes.greyTextColor, classes.smallText)}>
                                 124 Ratings & 15 Reviews

@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 
-const useStyle = makeStyles({
+const useStyle = makeStyles(theme => ({
     component: {
         // width: '30%'
+        [theme.breakpoints.down('sm')]: {
+            paddingBottom: 70 // space for bottom bar
+        }
     },
     header: {
         padding: '15px 24px',
@@ -29,7 +32,7 @@ const useStyle = makeStyles({
         padding: '20px 0',
         borderBottom: '1px dashed #e0e0e0'
     }
-})
+}));
 
 
 const TotalView = ({ cartItems }) => {

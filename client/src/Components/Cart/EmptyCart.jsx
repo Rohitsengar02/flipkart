@@ -1,21 +1,29 @@
 
 import { makeStyles, Typography, Box } from '@material-ui/core';
 
-const useStyle = makeStyles({
+const useStyle = makeStyles(theme => ({
     component: {
-        width: '80%%',
+        width: '80%',
         height: '65vh',
         background: '#fff',
-        margin: '80px 140px'
+        margin: '80px 140px',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+            margin: '20px 0',
+            height: 'auto'
+        }
     },
     image: {
-        width: '15%'
+        width: '15%',
+        [theme.breakpoints.down('sm')]: {
+            width: '40%'
+        }
     },
     container: {
         textAlign: 'center',
         paddingTop: 70
     }
-})
+}));
 
 
 const EmptyCart = () => {

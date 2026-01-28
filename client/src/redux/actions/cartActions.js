@@ -1,9 +1,11 @@
 import * as actionTypes from '../constants/cartConstants';
 import axios from 'axios';
 
+const url = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+
 export const addToCart = (id, quantity) => async (dispatch, getState) => {
     try {
-        const { data } = await axios.get(`https://flipkart-ct3q.onrender.com/product/${id}`);
+        const { data } = await axios.get(`${url}/product/${id}`);
 
         dispatch({ type: actionTypes.ADD_TO_CART, payload: { ...data, quantity } });
 

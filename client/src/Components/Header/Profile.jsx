@@ -28,7 +28,7 @@ const Profile = ({ account, setAccount }) => {
     const logout = () => {
         setAccount('');
     }
-    
+
     return (
         <>
             <Link onClick={handleClick}><Typography style={{ marginTop: 2 }}>{account}</Typography></Link>
@@ -38,13 +38,18 @@ const Profile = ({ account, setAccount }) => {
                 onClose={handleClose}
                 className={classes.component}
             >
-                <MenuItem onClick={() => { handleClose(); logout();}}>
-                    <PowerSettingsNew fontSize='small' color='primary'/> 
+                <MenuItem onClick={() => { handleClose(); }}>
+                    <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit', display: 'flex' }}>
+                        <Typography className={classes.logout} style={{ marginLeft: 0 }}>My Profile</Typography>
+                    </Link>
+                </MenuItem>
+                <MenuItem onClick={() => { handleClose(); logout(); }}>
+                    <PowerSettingsNew fontSize='small' color='primary' />
                     <Typography className={classes.logout}>Logout</Typography>
                 </MenuItem>
             </Menu>
         </>
-    )    
+    )
 }
 
 export default Profile;

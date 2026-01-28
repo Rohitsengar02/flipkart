@@ -24,7 +24,7 @@ const useStyle = makeStyles(theme => ({
     component: {
         marginTop: 12,
         background: '#FFFFFF'
-    }, 
+    },
     timer: {
         color: '#7f7f7f',
         marginLeft: 10,
@@ -61,7 +61,7 @@ const useStyle = makeStyles(theme => ({
     wrapper: {
         padding: '25px 15px'
     },
-    
+
 }));
 
 const MultiSlide = ({ data, timer, title }) => {
@@ -71,23 +71,23 @@ const MultiSlide = ({ data, timer, title }) => {
     const renderer = ({ hours, minutes, seconds }) => {
         return <span className={classes.timer}>{hours} : {minutes} : {seconds}  Left</span>;
     };
-    
+
     return (
         <Box className={classes.component}>
             <Box className={classes.deal}>
                 <Typography className={classes.dealText}>{title}</Typography>
                 {
                     timer && <Box className={classes.timer}>
-                                <img src={timerURL} style={{ width: 24 }} alt='time clock' />
-                                <Countdown date={Date.now() + 5.04e+7} renderer={renderer} />
-                        </Box>
+                        <img src={timerURL} style={{ width: 24 }} alt='time clock' />
+                        <Countdown date={Date.now() + 5.04e+7} renderer={renderer} />
+                    </Box>
                 }
                 <Button variant="contained" color="primary" className={classes.button}>View All</Button>
             </Box>
             <Divider />
             <Carousel
-                swipeable={false}
-                draggable={false}
+                swipeable={true}
+                draggable={true}
                 responsive={responsive}
                 centerMode={true}
                 infinite={true}
@@ -96,13 +96,13 @@ const MultiSlide = ({ data, timer, title }) => {
                 keyBoardControl={true}
                 showDots={false}
                 containerClass="carousel-container"
-                // removeArrowOnDeviceType={["tablet", "mobile"]}
+                removeArrowOnDeviceType={["tablet", "mobile"]}
                 dotListClass="custom-dot-list-style"
                 itemClass="carousel-item-padding-40-px"
             >
                 {
                     data.map(temp => (
-                        <Link to={`product/${temp.id}`} style={{textDecoration: 'none'}}>
+                        <Link to={`product/${temp.id}`} style={{ textDecoration: 'none' }}>
                             <Box textAlign="center" className={classes.wrapper}>
                                 <img src={temp.url} className={classes.image} alt="" />
                                 <Typography className={classes.text} style={{ fontWeight: 600, color: '#212121' }}>{temp.title.shortTitle}</Typography>
@@ -121,7 +121,7 @@ const Slide = (props) => {
     return (
         <>
             {
-                props.multi === true ? <MultiSlide {...props} /> : ''      
+                props.multi === true ? <MultiSlide {...props} /> : ''
             }
         </>
     )

@@ -10,29 +10,40 @@ import EmptyCart from './EmptyCart';
 
 const useStyle = makeStyles(theme => ({
     component: {
-        // marginTop: 55,
         padding: '30px 135px',
         display: 'flex',
         [theme.breakpoints.down('sm')]: {
-            padding: '15px 0'
+            padding: '15px 10px',
+            flexDirection: 'column'
         }
     },
     leftComponent: {
-        // width: '67%',
         paddingRight: 15,
         [theme.breakpoints.down('sm')]: {
-            marginBottom: 15
+            marginBottom: 15,
+            paddingRight: 0
         }
     },
     header: {
         padding: '15px 24px',
-        background: '#fff'
+        background: '#fff',
+        [theme.breakpoints.down('sm')]: {
+            padding: '10px'
+        }
     },
     bottom: {
         padding: '16px 22px',
         background: '#fff',
         boxShadow: '0 -2px 10px 0 rgb(0 0 0 / 10%)',
-        borderTop: '1px solid #f0f0f0'
+        borderTop: '1px solid #f0f0f0',
+        [theme.breakpoints.down('sm')]: {
+            position: 'fixed',
+            bottom: 56, // Adjusted for bottom nav
+            left: 0,
+            right: 0,
+            padding: '10px',
+            zIndex: 100
+        }
     },
     placeOrder: {
         display: 'flex',
@@ -41,7 +52,11 @@ const useStyle = makeStyles(theme => ({
         color: '#fff',
         borderRadius: 2,
         width: 250,
-        height: 51
+        height: 51,
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+            height: 45
+        }
     }
 }));
 

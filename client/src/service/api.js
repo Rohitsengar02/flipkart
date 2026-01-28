@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'https://flipkart-ct3q.onrender.com';
+const url = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 export const authenticateLogin = async (user) => {
     try {

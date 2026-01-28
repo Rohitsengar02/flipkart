@@ -125,46 +125,54 @@ const ProductDetail = ({ product }) => {
                 </Box>
             </Box>
 
-            <Table style={{ marginTop: 20 }}>
-                <TableBody>
-                    <TableRow className={classes.smallText}>
-                        <TableCell className={classes.greyTextColor}>Delivery</TableCell>
-                        <TableCell style={{ fontWeight: 600 }}>Delivery by {date.toDateString()} | ₹40</TableCell>
-                    </TableRow>
-                    <TableRow className={classes.smallText}>
-                        <TableCell className={classes.greyTextColor}>Warranty</TableCell>
-                        <TableCell>No Warranty</TableCell>
-                    </TableRow>
-                    <TableRow className={classes.smallText}>
-                        <TableCell className={classes.greyTextColor}>Seller</TableCell>
-                        <TableCell className={classes.smallText}>
-                            <span style={{ color: '#2874f0' }}>SuperComNet</span>
-                            <Typography>GST invoice available</Typography>
-                            <Typography>View more sellers starting from ₹329</Typography>
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell colSpan={2}>
-                            <img src={adURL} style={{ width: '100%', maxWidth: 390 }} alt="" />
-                        </TableCell>
-                    </TableRow>
-                    <TableRow className={classes.smallText}>
-                        <TableCell className={classes.greyTextColor}>Description</TableCell>
-                        <TableCell>{product.description}</TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
+            <Box style={{ overflowX: 'auto' }}>
+                <Table style={{ marginTop: 20, minWidth: 300 }}>
+                    <TableBody>
+                        <TableRow className={classes.smallText}>
+                            <TableCell className={classes.greyTextColor} style={{ borderBottom: 'none' }}>Delivery</TableCell>
+                            <TableCell style={{ fontWeight: 600, borderBottom: 'none' }}>Delivery by {date.toDateString()} | ₹40</TableCell>
+                        </TableRow>
+                        <TableRow className={classes.smallText}>
+                            <TableCell className={classes.greyTextColor} style={{ borderBottom: 'none' }}>Warranty</TableCell>
+                            <TableCell style={{ borderBottom: 'none' }}>No Warranty</TableCell>
+                        </TableRow>
+                        <TableRow className={classes.smallText}>
+                            <TableCell className={classes.greyTextColor} style={{ borderBottom: 'none' }}>Seller</TableCell>
+                            <TableCell className={classes.smallText} style={{ borderBottom: 'none' }}>
+                                <span style={{ color: '#2874f0' }}>SuperComNet</span>
+                                <Typography style={{ fontSize: 13 }}>GST invoice available</Typography>
+                                <Typography style={{ fontSize: 13 }}>View more sellers starting from ₹329</Typography>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell colSpan={2} style={{ borderBottom: 'none', padding: '20px 0' }}>
+                                <img src={adURL} style={{ width: '100%', maxWidth: 390 }} alt="" />
+                            </TableCell>
+                        </TableRow>
+                        <TableRow className={classes.smallText}>
+                            <TableCell className={classes.greyTextColor}>Description</TableCell>
+                            <TableCell>{product.description}</TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </Box>
 
             {/* Ratings & Reviews */}
             <Box style={{ marginTop: 40, borderTop: '1px solid #f0f0f0', paddingTop: 24 }}>
                 <Typography style={{ fontSize: 24, fontWeight: 600 }}>Ratings & Reviews</Typography>
 
-                <Box style={{ display: 'flex', alignItems: 'center', marginTop: 10, gap: 15 }}>
-                    <Box style={{ textAlign: 'center' }}>
+                <Box style={{
+                    display: 'flex',
+                    flexDirection: window.innerWidth < 600 ? 'column' : 'row',
+                    alignItems: window.innerWidth < 600 ? 'flex-start' : 'center',
+                    marginTop: 10,
+                    gap: 15
+                }}>
+                    <Box style={{ textAlign: window.innerWidth < 600 ? 'left' : 'center' }}>
                         <Typography style={{ fontSize: 32, fontWeight: 500 }}>4.5 <Star style={{ fontSize: 24, verticalAlign: 'text-top' }} /></Typography>
                         <Typography style={{ color: '#878787', fontSize: 14 }}>124 Ratings & 15 Reviews</Typography>
                     </Box>
-                    <Box style={{ flex: 1, maxWidth: 300 }}>
+                    <Box style={{ flex: 1, width: '100%', maxWidth: 300 }}>
                         {[5, 4, 3, 2, 1].map(star => (
                             <Box key={star} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 12 }}>
                                 <Typography>{star} ★</Typography>
