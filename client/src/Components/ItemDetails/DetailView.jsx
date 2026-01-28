@@ -105,11 +105,17 @@ const DetailView = ({ history, match }) => {
 
 
     useEffect(() => {
+        // Ensure page starts from top when navigating to a new product
+        window.scrollTo(0, 0);
+
         const getProductValues = async () => {
             setLoading(true);
-            const response = await getProductById(id);
-            setProduct(response.data);
-            addToRecent(response.data.id);
+            const realId = id.toString().split('-random')[0];
+            const response = await getProductById(realId);
+            if (response.data && response.data.id) {
+                setProduct(response.data);
+                addToRecent(response.data.id);
+            }
             setLoading(false);
         }
         getProductValues();

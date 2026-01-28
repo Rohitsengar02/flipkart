@@ -171,6 +171,34 @@ const CategoryPage = () => {
 
     const title = category === 'all' ? 'All Products' : category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
+    const [displayProducts, setDisplayProducts] = useState([]);
+
+    useEffect(() => {
+        if (filteredProducts && filteredProducts.length > 0) {
+            // Randomize and repeat to get 30 products
+            const targetCount = 30;
+            let tempProducts = [...filteredProducts];
+
+            // Simple shuffle
+            tempProducts = tempProducts.sort(() => Math.random() - 0.5);
+
+            // Pad if needed
+            while (tempProducts.length < targetCount) {
+                tempProducts = [...tempProducts, ...filteredProducts];
+            }
+
+            // Slice and set state logic
+            const finalProducts = tempProducts.slice(0, targetCount).map((product, index) => ({
+                ...product,
+                // Append unique suffix to avoid key collisions and distinct ID for React
+                id: `${product.id}-random-${index}`
+            }));
+            setDisplayProducts(finalProducts);
+        } else {
+            setDisplayProducts([]);
+        }
+    }, [filteredProducts]);
+
     return (
         <Box className={classes.component}>
             {/* Custom Mobile Header */}
@@ -246,35 +274,16 @@ const CategoryPage = () => {
                 </Box>
                 <Box className={classes.rightPane}>
                     <Box style={{ background: '#fff', display: 'flex', flexWrap: 'wrap' }}>
-                        {
-                            (filteredProducts && filteredProducts.length > 0) ? (() => {
-                                // Randomize and repeat to get 25 products
-                                const targetCount = 25;
-                                let displayProducts = [...filteredProducts];
-
-                                // Simple shuffle
-                                displayProducts = displayProducts.sort(() => Math.random() - 0.5);
-
-                                // Pad if needed
-                                while (displayProducts.length < targetCount) {
-                                    displayProducts = [...displayProducts, ...filteredProducts];
-                                }
-
-                                // Slice to exact count and render
-                                return displayProducts.slice(0, targetCount).map((product, index) => (
-                                    <ProductCard
-                                        product={{
-                                            ...product,
-                                            // Append unique suffix to avoid key collisions and distinct ID for React
-                                            id: `${product.id}-random-${index}`
-                                        }}
-                                        key={index}
-                                    />
-                                ));
-                            })() : (
-                                <Box style={{ padding: 20, textAlign: 'center', width: '100%' }}>No products found</Box>
-                            )
-                        }
+                        {displayProducts.length > 0 ? (
+                            displayProducts.map((product) => (
+                                <ProductCard
+                                    product={product}
+                                    key={product.id}
+                                />
+                            ))
+                        ) : (
+                            <Box style={{ padding: 20, textAlign: 'center', width: '100%' }}>No products found</Box>
+                        )}
                     </Box>
                 </Box>
             </Box>

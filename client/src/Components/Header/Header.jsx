@@ -1,5 +1,5 @@
 import { AppBar, makeStyles, Box, Typography, IconButton, Badge } from '@material-ui/core';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Menu, AccountCircle, ShoppingCart, LocationOn, ChevronRight, GetApp, ExpandMore, MoreVert } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
 import Search from './Search';
@@ -50,7 +50,7 @@ const useStyle = makeStyles(theme => ({
         marginLeft: 10
     },
     logo: {
-        width: 80,
+        width: 170,
     },
     locationRow: {
         display: 'flex',
@@ -111,10 +111,9 @@ const useStyle = makeStyles(theme => ({
 
 const Header = () => {
     const classes = useStyle();
-    const location = useLocation();
     const { cartItems } = useSelector(state => state.cart);
 
-    if (location.pathname.startsWith('/category/') || location.pathname === '/all-categories') return null;
+
 
     return (
         <AppBar className={classes.header}>

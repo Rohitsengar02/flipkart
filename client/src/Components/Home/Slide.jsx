@@ -102,7 +102,7 @@ const MultiSlide = ({ data, timer, title }) => {
             >
                 {
                     data.map(temp => (
-                        <Link to={`product/${temp.id}`} style={{ textDecoration: 'none' }}>
+                        <Link to={`/product/${temp.id}`} style={{ textDecoration: 'none' }}>
                             <Box textAlign="center" className={classes.wrapper}>
                                 <img src={temp.url} className={classes.image} alt="" />
                                 <Typography className={classes.text} style={{ fontWeight: 600, color: '#212121' }}>{temp.title.shortTitle}</Typography>

@@ -29,7 +29,7 @@ export const TemplateProvider = ({ children }) => {
     });
 
     return (
-        <TemplateContext.Provider>
+        <TemplateContext.Provider value={{}}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 {children}
