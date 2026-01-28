@@ -83,9 +83,6 @@ const FilterSidebar = () => {
 
     return (
         <Box>
-            <Typography style={{ fontSize: 18, fontWeight: 600, marginBottom: 20 }}>
-                Filters
-            </Typography>
 
             {/* Category Filter */}
             <Box className={classes.filterSection}>

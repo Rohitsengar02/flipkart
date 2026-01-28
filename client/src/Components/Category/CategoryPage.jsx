@@ -242,15 +242,25 @@ const CategoryPage = () => {
 
             <Box className={classes.productContainer}>
                 <Box className={classes.leftPane}>
-                    <Typography style={{ fontSize: 18, fontWeight: 600, marginBottom: 15 }}>Filters</Typography>
-                    {/* Placeholder for desktop filters */}
-                    <Typography style={{ fontSize: 14, color: '#878787' }}>Categories, Price, Brand...</Typography>
+                    <FilterSidebar />
                 </Box>
                 <Box className={classes.rightPane}>
-                    <Box style={{ background: '#fff' }}>
-                        {filteredProducts && filteredProducts.map(product => (
-                            <ProductCard product={product} key={product.id} />
-                        ))}
+                    <Box style={{ background: '#fff', display: 'flex', flexWrap: 'wrap' }}>
+                        {
+                            // If filteredProducts has items, show them. 
+                            // If it's a desktop view and we have few items, pad with duplicates/randoms to show a full grid (mocking "30 products")
+                            (filteredProducts && filteredProducts.length > 0 ? (
+                                window.innerWidth > 960 ?
+                                    [...filteredProducts, ...Array(30).fill(filteredProducts[0])].slice(0, 30).map((product, index) => (
+                                        <ProductCard product={{ ...product, id: product?.id + index }} key={index} />
+                                    ))
+                                    : filteredProducts.map(product => (
+                                        <ProductCard product={product} key={product.id} />
+                                    ))
+                            ) : (
+                                <Box style={{ padding: 20, textAlign: 'center', width: '100%' }}>No products found</Box>
+                            ))
+                        }
                     </Box>
                 </Box>
             </Box>
