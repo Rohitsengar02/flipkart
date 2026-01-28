@@ -1,4 +1,4 @@
-import { AppBar, makeStyles, Box, Typography, IconButton, Badge, Button } from '@material-ui/core';
+import { AppBar, makeStyles, Box, Typography, IconButton, Badge } from '@material-ui/core';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, AccountCircle, ShoppingCart, LocationOn, ChevronRight, GetApp, ExpandMore, MoreVert } from '@material-ui/icons';
 import { useSelector } from 'react-redux';

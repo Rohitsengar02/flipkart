@@ -1,7 +1,6 @@
 import { Box, Typography, makeStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { Star, FavoriteBorder } from '@material-ui/icons';
-import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
     component: {

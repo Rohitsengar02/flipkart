@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Button, Box, makeStyles, IconButton, Typography } from '@material-ui/core';
-import { ShoppingCart as Cart, FlashOn as Flash, FavoriteBorder, Share, Star } from '@material-ui/icons';
+import { ShoppingCart as Cart, FavoriteBorder, Share, Star } from '@material-ui/icons';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { addToCart } from '../../redux/actions/cartActions';
 import { useDispatch } from 'react-redux';
-import { loadRazorpay } from '../../razorpay/loadPayment';
 
 const useStyle = makeStyles(theme => ({
     leftContainer: {
@@ -214,10 +213,6 @@ const ActionItem = ({ product }) => {
     useEffect(() => {
         setSelectedImage(product.detailUrl);
     }, [product]);
-
-    const buyNow = async () => {
-        loadRazorpay(product.price.cost);
-    }
 
     const addItemToCart = () => {
         dispatch(addToCart(id, 1));
