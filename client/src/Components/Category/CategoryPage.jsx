@@ -247,19 +247,33 @@ const CategoryPage = () => {
                 <Box className={classes.rightPane}>
                     <Box style={{ background: '#fff', display: 'flex', flexWrap: 'wrap' }}>
                         {
-                            // If filteredProducts has items, show them. 
-                            // If it's a desktop view and we have few items, pad with duplicates/randoms to show a full grid (mocking "30 products")
-                            (filteredProducts && filteredProducts.length > 0 ? (
-                                window.innerWidth > 960 ?
-                                    [...filteredProducts, ...Array(30).fill(filteredProducts[0])].slice(0, 30).map((product, index) => (
-                                        <ProductCard product={{ ...product, id: product?.id + index }} key={index} />
-                                    ))
-                                    : filteredProducts.map(product => (
-                                        <ProductCard product={product} key={product.id} />
-                                    ))
-                            ) : (
+                            (filteredProducts && filteredProducts.length > 0) ? (() => {
+                                // Randomize and repeat to get 25 products
+                                const targetCount = 25;
+                                let displayProducts = [...filteredProducts];
+
+                                // Simple shuffle
+                                displayProducts = displayProducts.sort(() => Math.random() - 0.5);
+
+                                // Pad if needed
+                                while (displayProducts.length < targetCount) {
+                                    displayProducts = [...displayProducts, ...filteredProducts];
+                                }
+
+                                // Slice to exact count and render
+                                return displayProducts.slice(0, targetCount).map((product, index) => (
+                                    <ProductCard
+                                        product={{
+                                            ...product,
+                                            // Append unique suffix to avoid key collisions and distinct ID for React
+                                            id: `${product.id}-random-${index}`
+                                        }}
+                                        key={index}
+                                    />
+                                ));
+                            })() : (
                                 <Box style={{ padding: 20, textAlign: 'center', width: '100%' }}>No products found</Box>
-                            ))
+                            )
                         }
                     </Box>
                 </Box>

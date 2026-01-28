@@ -17,8 +17,8 @@ export const getProducts = () => async (dispatch) => {
 export const getProductDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: actionTypes.GET_PRODUCT_DETAILS_REQUEST });
-        // Fix: Strip any potential suffix (like the random index added for demo) to get the real DB ID
-        const realId = id.includes('product') ? id : id.replace(/\D+$/, '');
+        // Fix: Handle IDs with '-random' suffix (used for demo grid)
+        const realId = id.toString().split('-random')[0];
         const { data } = await axios.get(`${url}/product/${realId}`);
         console.log(data);
 
