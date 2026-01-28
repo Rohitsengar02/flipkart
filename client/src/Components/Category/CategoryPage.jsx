@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Typography, Grid, makeStyles, IconButton, Badge, Drawer } from '@material-ui/core';
+import { Box, Typography, makeStyles, IconButton, Badge, Drawer } from '@material-ui/core';
 import { useParams, useHistory } from 'react-router-dom';
 import { getProducts } from '../../redux/actions/productActions';
 import { useDispatch, useSelector } from 'react-redux';

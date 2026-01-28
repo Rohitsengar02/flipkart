@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Box, Typography, makeStyles, Avatar, Divider, Button, Grid, Paper } from '@material-ui/core';
+import { Box, Typography, makeStyles } from '@material-ui/core';
 import { LoginContext } from '../../context/ContextProvider';
 import {
     LocalMall as OrdersIcon,
@@ -142,14 +142,8 @@ const useStyles = makeStyles(theme => ({
 const Profile = () => {
     const classes = useStyles();
     const history = useHistory();
-    const { account, setAccount } = useContext(LoginContext);
+    const { setAccount } = useContext(LoginContext);
 
-    const viewedStores = [
-        'https://rukminim1.flixcart.com/image/312/312/xif0q/washing-machine-new/v/f/v/-original-imagp7ggpznzuzhv.jpeg?q=70',
-        'https://rukminim1.flixcart.com/image/612/612/xif0q/shoe/c/f/d/7-f-33-7-white-walk-navy-original-imagpghvghhghhgv.jpeg?q=70',
-        'https://rukminim1.flixcart.com/image/612/612/xif0q/lip-balm/h/j/f/-original-imagp7ggpznzuzhv.jpeg?q=70',
-        'https://rukminim1.flixcart.com/image/312/312/xif0q/mobile/n/m/f/-original-imagp7ggpznzuzhv.jpeg?q=70'
-    ];
 
     return (
         <Box className={classes.component}>

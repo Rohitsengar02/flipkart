@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Typography, makeStyles, Button, Divider } from '@material-ui/core';
+import { Box, Typography, makeStyles } from '@material-ui/core';
 import { Delete, Star } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 
