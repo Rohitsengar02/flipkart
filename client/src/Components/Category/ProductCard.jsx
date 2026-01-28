@@ -11,8 +11,8 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('md')]: {
             padding: 15,
             border: '1px solid #f0f0f0',
-            display: 'inline-block',
-            width: '100%'
+            width: '25%',
+            boxSizing: 'border-box'
         }
     },
     container: {
